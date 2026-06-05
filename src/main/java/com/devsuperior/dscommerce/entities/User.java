@@ -25,9 +25,9 @@ public class User {
 
     @ManyToMany
     @JoinTable(
-            name = "tb_user_roles",
-            joinColumns = @JoinColumn(name = "studentId"),
-            inverseJoinColumns = @JoinColumn(name = "courseId")
+            name = "tb_user_role",
+            joinColumns = @JoinColumn(name = "userId"),
+            inverseJoinColumns = @JoinColumn(name = "roleId")
     )
     private Set<Role> roles = new HashSet<>();
 
