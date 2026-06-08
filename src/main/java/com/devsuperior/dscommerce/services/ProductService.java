@@ -1,5 +1,6 @@
 package com.devsuperior.dscommerce.services;
 
+import com.devsuperior.dscommerce.entities.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -24,9 +25,9 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id) {
-        Product product = repository.findById(id).orElseThrow(
+        Product Product = repository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Recurso não encontrado"));
-        return new ProductDTO(product);
+        return new ProductDTO(Product);
     }
 
     @Transactional(readOnly = true)
