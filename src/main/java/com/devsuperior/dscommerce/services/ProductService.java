@@ -1,5 +1,6 @@
 package com.devsuperior.dscommerce.services;
 
+import com.devsuperior.dscommerce.dto.ProductMinDTO;
 import com.devsuperior.dscommerce.entities.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -24,33 +25,33 @@ public class ProductService {
     private ProductRepository repository;
 
     @Transactional(readOnly = true)
-    public ProductDTO findById(Long id) {
+    public ProductMinDTO findById(Long id) {
         Product Product = repository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Recurso não encontrado"));
-        return new ProductDTO(Product);
+        return new ProductMinDTO(Product);
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(String name, Pageable pageable) {
+    public Page<ProductMinDTO> findAll(String name, Pageable pageable) {
         Page<Product> result = repository.searchByName(name, pageable);
-        return result.map(x -> new ProductDTO(x));
+        return result.map(x -> new ProductMinDTO(x));
     }
 
     @Transactional
-    public ProductDTO insert(ProductDTO dto) {
+    public ProductMinDTO insert(ProductMinDTO dto) {
         Product entity = new Product();
         copyDtoToEntity(dto, entity);
         entity = repository.save(entity);
-        return new ProductDTO(entity);
+        return new ProductMinDTO(entity);
     }
 
     @Transactional
-    public ProductDTO update(Long id, ProductDTO dto) {
+    public ProductMinDTO update(Long id, ProductMinDTO dto) {
         try {
             Product entity = repository.getReferenceById(id);
             copyDtoToEntity(dto, entity);
             entity = repository.save(entity);
-            return new ProductDTO(entity);
+            return new ProductMinDTO(entity);
         }
         catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Recurso não encontrado");
@@ -70,9 +71,8 @@ public class ProductService {
         }
     }
 
-    private void copyDtoToEntity(ProductDTO dto, Product entity) {
+    private void copyDtoToEntity(ProductMinDTO dto, Product entity) {
         entity.setName(dto.getName());
-        entity.setDescription(dto.getDescription());
         entity.setPrice(dto.getPrice());
         entity.setImgUrl(dto.getImgUrl());
     }
