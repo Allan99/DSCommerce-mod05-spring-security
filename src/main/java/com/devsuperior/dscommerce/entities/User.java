@@ -125,21 +125,21 @@ public class User implements UserDetails {
         roles.add(role);
     }
 
-    public boolean hasRole(String roleName) {
-        for (Role role : roles) {
-            if (role.getAuthority().equals(roleName)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
 
     public List<Order> getOrders() {
         return orders;
+    }
+
+    public boolean hasRole(String roleName){
+        for(Role role: roles){
+            if(role.getAuthority().equals(roleName)){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
